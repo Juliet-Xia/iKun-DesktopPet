@@ -8,6 +8,13 @@ from PySide6.QtWidgets import QApplication, QLabel, QMenu
 from PySide6.QtGui import QPixmap, QPainter, QColor
 from PySide6.QtCore import Qt, QPoint
 
+def resource_path(relative_path):
+        if hasattr(sys, "_MEIPASS"):
+            base_path = sys._MEIPASS
+        else:
+            base_path = os.path.dirname(os.path.abspath(__file__))
+        return os.path.join(base_path, relative_path)
+
 
 class DesktopPet(QLabel):
     def __init__(self):
@@ -27,7 +34,7 @@ class DesktopPet(QLabel):
         # =========================
         # 2. 加载坤坤图片
         # =========================
-        self.original_pixmap = QPixmap("assets/pet.png")
+        self.original_pixmap = QPixmap(resource_path("assets/pet.png"))
 
         if self.original_pixmap.isNull():
             print("图片加载失败，请检查 assets/pet.png")
@@ -295,11 +302,7 @@ class DesktopPet(QLabel):
             k=1
         )[0]
 
-        audio_path = os.path.join(
-        os.path.dirname(__file__),
-        "assets",
-        selected_audio
-        )
+        audio_path = resource_path(os.path.join("assets", selected_audio))
 
         # 如果之前正在播放，先停掉
         self.player.stop()
